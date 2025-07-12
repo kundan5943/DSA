@@ -1,0 +1,117 @@
+import heapq
+
+# ---------------- Selection Sort ----------------
+def selection_sort(arr):
+    n = len(arr)
+    for i in range(n):
+        min_idx = i
+        for j in range(i + 1, n):
+            if arr[j] < arr[min_idx]:
+                min_idx = j
+        arr[i], arr[min_idx] = arr[min_idx], arr[i]
+    return arr
+
+# ---------------- Minimum Spanning Tree (Prim's) ----------------
+def prim(graph, start):
+    mst = []
+    visited = set([start])
+    edges = [(cost, start, to) for to, cost in graph[start]]
+    heapq.heapify(edges)
+
+    while edges:
+        cost, frm, to = heapq.heappop(edges)
+        if to not in visited:
+            visited.add(to)
+            mst.append((frm, to, cost))
+            for next_to, next_cost in graph[to]:
+                if next_to not in visited:
+                    heapq.heappush(edges, (next_cost, to, next_to))
+
+    return mst
+
+# ---------------- Shortest Path (Dijkstra) ----------------
+def dijkstra(graph, start):
+    pq = [(0, start)]
+    distances = {node: float('inf') for node in graph}
+    distances[start] = 0
+
+    while pq:
+        current_distance, current_node = heapq.heappop(pq)
+        if current_distance > distances[current_node]:
+            continue
+        for neighbor, weight in graph[current_node]:
+            distance = current_distance + weight
+            if distance < distances[neighbor]:
+                distances[neighbor] = distance
+                heapq.heappush(pq, (distance, neighbor))
+    return distances
+
+# ---------------- Job Scheduling ----------------
+def job_scheduling(jobs):
+    jobs.sort(key=lambda x: x[2], reverse=True)  # Sort by profit
+    n = len(jobs)
+    result = [None] * n
+    slot = [False] * n
+
+    for job in jobs:
+        for j in range(min(n, job[1]) - 1, -1, -1):
+            if not slot[j]:
+                slot[j] = True
+                result[j] = job[0]
+                break
+    return [job for job in result if job]
+
+# ---------------- Main Menu (Loop Until Exit) ----------------
+def main():
+    while True:
+        print("\nChoose Algorithm to Run:")
+        print("1. Selection Sort")
+        print("2. Minimum Spanning Tree (Prim's)")
+        print("3. Shortest Path (Dijkstra)")
+        print("4. Job Scheduling")
+        print("5. Exit")
+
+        choice = int(input("Enter choice (1-5): "))
+
+        if choice == 1:
+            arr = [64, 25, 12, 22, 11]
+            print("Unsorted Array:", arr)
+            print("Sorted Array:", selection_sort(arr))
+
+        elif choice == 2:
+            graph = {
+                'A': [('B', 1), ('D', 3)],
+                'B': [('A', 1), ('C', 4), ('D', 2)],
+                'C': [('B', 4), ('D', 5)],
+                'D': [('A', 3), ('B', 2), ('C', 5)]
+            }
+            print("MST:", prim(graph, 'A'))
+
+        elif choice == 3:
+            graph = {
+                'A': [('B', 1), ('C', 4)],
+                'B': [('A', 1), ('C', 2), ('D', 5)],
+                'C': [('A', 4), ('B', 2), ('D', 1)],
+                'D': [('B', 5), ('C', 1)]
+            }
+            print("Shortest Path Distances:", dijkstra(graph, 'A'))
+
+        elif choice == 4:
+            jobs = [
+                ('Job1', 2, 100),
+                ('Job2', 1, 19),
+                ('Job3', 2, 27),
+                ('Job4', 1, 25),
+                ('Job5', 3, 15)
+            ]
+            print("Scheduled Jobs:", job_scheduling(jobs))
+
+        elif choice == 5:
+            print("Exiting program. Goodbye!")
+            break
+
+        else:
+            print("Invalid choice! Please choose a number between 1 and 5.")
+
+if __name__ == "__main__":
+    main()
