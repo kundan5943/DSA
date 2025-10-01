@@ -16,7 +16,7 @@ void printSodoku(int arr[][9])
 bool IsSafe(int arr[][9],int row ,int col,int digit)
 {
     
-    for(int i=1;i<9;i++)//Vertical
+    for(int i=0;i<9;i++)//Vertical
     {
         if(arr[i][col]==digit)
         {
