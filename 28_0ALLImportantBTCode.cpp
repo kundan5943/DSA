@@ -84,6 +84,27 @@ int heightoftree(Node *root)
   int ans=max(val1,val2);
   return 1+ans;
 }
+int countnodes(Node * root)
+{
+    if(root==NULL)
+    {
+        return 0;
+    }
+    int val1=countnodes(root->left);
+    int val2=countnodes(root->right);
+    return 1+val1+val2;
+}
+int sumofnodes(Node * root)
+{
+    if(root==NULL)
+    {
+        return 0;
+    }
+    int val1=countnodes(root->left);
+    int val2=countnodes(root->right);
+    return root->data+val1+val2;
+}
+
 int diameteroftree(Node * root)
 {
   // find the maximum diameter of tree..
@@ -93,8 +114,8 @@ int diameteroftree(Node * root)
   }
   // there are 3 choices for each node 
   int ch1=1+heightoftree(root->left)+heightoftree(root->right);
-  int ch2=heightoftree(root->left);
-  int ch3=heightoftree(root->right);
+  int ch2=diameteroftree(root->left);
+  int ch3=diameteroftree(root->right);
 
   int maxch=max(ch1,max(ch2,ch2));
   return maxch;

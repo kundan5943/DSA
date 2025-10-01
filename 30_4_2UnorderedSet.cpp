@@ -16,22 +16,22 @@ int main(){
   
 
     cout<<s.size()<<endl;
-    if(s.find(5)!=s.end())
-    {
-        cout<<"5 exist"<<endl;
-    }
-    else
-    {
-        cout<<"5 not exist"<<endl;
-    }
-    s.erase(9);
+    // if(s.find(5)!=s.end())
+    // {
+    //     cout<<"5 exist"<<endl;
+    // }
+    // else
+    // {
+    //     cout<<"5 not exist"<<endl;
+    // }
+    // s.erase(9);
 
-    for(auto el:s)
-    {
-        cout<<el<<endl;
-    }
+    // for(auto el:s)
+    // {
+    //     cout<<el<<endl;
+    // }
 
 
-    
+    cout<<s.end();
     return 0;
 }
